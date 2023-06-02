@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+
 <html lang="fr">
+
 <head>
 	<meta charset="UTF-8">
 	<title>Sophie Bluel - Architecte d'intérieur</title>
@@ -10,8 +12,49 @@
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
+
 <body>
+
 <header>
+
+	<!-- Fenêtre modale du spectateur -->
+	<div id="modal-viewer" class="modal">
+		<div class="modal-content">
+		<span class="close">&times;</span>
+		<h2>Galerie photo</h2>
+		<div id="photo-gallery">
+			<!-- Les 12 photos seront ajoutées ici dynamiquement -->
+		</div>
+		<button id="add-photo-btn">Ajouter une photo</button>
+		<button id="delete-gallery-btn">Supprimer la galerie</button>
+		</div>
+	</div>
+	
+	<!-- Fenêtre modale "Ajout photo" -->
+	<div id="modal-add-photo" class="modal">
+		<div class="modal-content">
+		<span class="close">&times;</span>
+		<h2>Ajout photo</h2>
+		<div class="form-group">
+			<div class="form-field">
+			<div class="frame">
+				<button id="add-photo-btn-inside">+ Ajouter photo</button>
+			</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="title-input">Titre</label>
+			<input type="text" id="title-input" />
+		</div>
+		<div class="form-group">
+			<label for="category-input">Catégorie</label>
+			<input type="text" id="category-input" />
+		</div>
+		<button id="submit-photo-btn">Valider</button>
+		</div>
+	</div>
+	
+
 	<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
 	<nav>
 		<ul>
@@ -106,5 +149,6 @@
 		</ul>
 	</nav>
 </footer>
+<script src="script.js"></script>
 </body>
 </html>
