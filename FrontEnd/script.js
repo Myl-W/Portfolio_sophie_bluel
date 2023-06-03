@@ -65,14 +65,14 @@ const worksData = [
         "nom": "Abajour Tahina",
         "image": "assets/images/abajour-tahina.png",
         "description": "Abajour Tahina",
-        "category": "category3"
+        "category": "category1"
     },
     {
         "id": 2,
         "nom": "Appartement Paris V",
         "image": "assets/images/appartement-paris-v.png",
         "description": "Appartement Paris V",
-        "category": "category1"
+        "category": "category2"
     },
     {
         "id": 3,
@@ -100,14 +100,14 @@ const worksData = [
         "nom": "Appartement Paris X",
         "image": "assets/images/appartement-paris-x.png",
         "description": "Appartement Paris X",
-        "category": "category1"
+        "category": "category2"
     },
     {
         "id": 7,
         "nom": "Pavillon “Le coteau” - Cassis",
         "image": "assets/images/le-coteau-cassis.png",
         "description": "Pavillon “Le coteau” - Cassis",
-        "category": "category3"
+        "category": "category2"
     },
     {
         "id": 8,
@@ -121,7 +121,7 @@ const worksData = [
         "nom": "Appartement Paris XVIII",
         "image": "assets/images/appartement-paris-xviii.png",
         "description": "Appartement Paris XVIII",
-        "category": "category1"
+        "category": "category2"
     },
     {
         "id": 10,
