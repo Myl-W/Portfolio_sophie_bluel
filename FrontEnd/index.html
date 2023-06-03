@@ -15,140 +15,106 @@
 
 <body>
 
-<header>
+	<header>
 
-	<!-- Fenêtre modale du spectateur -->
-	<div id="modal-viewer" class="modal">
-		<div class="modal-content">
-		<span class="close">&times;</span>
-		<h2>Galerie photo</h2>
-		<div id="photo-gallery">
-			<!-- Les 12 photos seront ajoutées ici dynamiquement -->
-		</div>
-		<button id="add-photo-btn">Ajouter une photo</button>
-		<button id="delete-gallery-btn">Supprimer la galerie</button>
-		</div>
-	</div>
-	
-	<!-- Fenêtre modale "Ajout photo" -->
-	<div id="modal-add-photo" class="modal">
-		<div class="modal-content">
-		<span class="close">&times;</span>
-		<h2>Ajout photo</h2>
-		<div class="form-group">
-			<div class="form-field">
-			<div class="frame">
-				<button id="add-photo-btn-inside">+ Ajouter photo</button>
+		<!-- Fenêtre modale du spectateur -->
+		<div id="modal-viewer" class="modal">
+			<div class="modal-content">
+			<span class="close">&times;</span>
+			<h2>Galerie photo</h2>
+			<div id="photo-gallery">
+				<!-- Les 12 photos seront ajoutées ici dynamiquement -->
 			</div>
+			<button id="add-photo-btn">Ajouter une photo</button>
+			<button id="delete-gallery-btn">Supprimer la galerie</button>
 			</div>
 		</div>
-		<div class="form-group">
-			<label for="title-input">Titre</label>
-			<input type="text" id="title-input" />
+		
+		<!-- Fenêtre modale "Ajout photo" -->
+		<div id="modal-add-photo" class="modal">
+			<div class="modal-content">
+			<span class="close">&times;</span>
+			<h2>Ajout photo</h2>
+			<div class="form-group">
+				<div class="form-field">
+				<div class="frame">
+					<button id="add-photo-btn-inside">+ Ajouter photo</button>
+				</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="title-input">Titre</label>
+				<input type="text" id="title-input" />
+			</div>
+			<div class="form-group">
+				<label for="category-input">Catégorie</label>
+				<input type="text" id="category-input" />
+			</div>
+			<button id="submit-photo-btn">Valider</button>
+			</div>
 		</div>
-		<div class="form-group">
-			<label for="category-input">Catégorie</label>
-			<input type="text" id="category-input" />
-		</div>
-		<button id="submit-photo-btn">Valider</button>
-		</div>
-	</div>
-	
+		
 
-	<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
-	<nav>
-		<ul>
-			<li>projets</li>
-			<li>contact</li>
-			<li>login</li>
-			
-			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
-		</ul>
-	</nav>
-</header>
-<main>
-	<section id="introduction">
-		<figure>
-			<img src="./assets/images/sophie-bluel.png" alt="">
-		</figure>
-		<article>
-			<h2>Designer d'espace</h2>
-			<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
-			<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
-			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
-		</article>
-	</section>
-	<section id="portfolio">
-		<h2>Mes Projets</h2>
-		<div class="gallery">
+		<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
+		<nav>
+			<ul>
+				<li>projets</li>
+				<li>contact</li>
+				<li>login</li>
+				
+				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+			</ul>
+		</nav>
+	</header>
+	<main>
+		<section id="introduction">
 			<figure>
-				<img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
-				<figcaption>Abajour Tahina</figcaption>
+				<img src="./assets/images/sophie-bluel.png" alt="">
 			</figure>
-			<figure>
-				<img src="assets/images/appartement-paris-v.png" alt="Appartement Paris V">
-				<figcaption>Appartement Paris V</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/restaurant-sushisen-londres.png" alt="Restaurant Sushisen - Londres">
-				<figcaption>Restaurant Sushisen - Londres</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/la-balisiere.png" alt="Villa “La Balisiere” - Port Louis">
-				<figcaption>Villa “La Balisiere” - Port Louis</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/structures-thermopolis.png" alt="Structures Thermopolis">
-				<figcaption>Structures Thermopolis</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/appartement-paris-x.png" alt="Appartement Paris X">
-				<figcaption>Appartement Paris X</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/le-coteau-cassis.png" alt="Pavillon “Le coteau” - Cassis">
-				<figcaption>Pavillon “Le coteau” - Cassis</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/villa-ferneze.png" alt="Villa Ferneze - Isola d’Elba">
-				<figcaption>Villa Ferneze - Isola d’Elba</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/appartement-paris-xviii.png" alt="Appartement Paris XVIII">
-				<figcaption>Appartement Paris XVIII</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/bar-lullaby-paris.png" alt="Bar “Lullaby” - Paris">
-				<figcaption>Bar “Lullaby” - Paris</figcaption>
-			</figure>
-			<figure>
-				<img src="assets/images/hotel-first-arte-new-delhi.png" alt="Hotel First Arte - New Delhi">
-				<figcaption>Hotel First Arte - New Delhi</figcaption>
-			</figure>
-		</div>
-	</section>
-	<section id="contact">
-		<h2>Contact</h2>
-		<p>Vous avez un projet ? Discutons-en !</p>
-		<form action="#" method="post">
-			<label for="name">Nom</label>
-			<input type="text" name="name" id="name">
-			<label for="email">Email</label>
-			<input type="email" name="email" id="email">
-			<label for="message">Message</label>
-			<textarea name="message" id="message" cols="30" rows="10"></textarea>
-			<input type="submit" value="Envoyer">
-		</form>
-	</section>
-</main>
+			<article>
+				<h2>Designer d'espace</h2>
+				<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
+				<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
+				<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
+			</article>
+		</section>
+		<section id="portfolio">
+			<h2>Mes Projets</h2>
 
-<footer>
-	<nav>
-		<ul>
-			<li>Mentions Légales</li>
-		</ul>
-	</nav>
-</footer>
-<script src="script.js"></script>
+			<label for="category-filter">Filtrer par catégorie :</label>
+			<select id="category-filter">
+  				<option value="all">Toutes les catégories</option>
+  				<option value="category1">Appartements</option>
+  				<option value="category2">Villas</option>
+				<option value="category3">Autre</option>
+			</select>
+
+			<div class="gallery">
+			</div>
+		</section>
+		<section id="contact">
+			<h2>Contact</h2>
+			<p>Vous avez un projet ? Discutons-en !</p>
+			<form action="#" method="post">
+				<label for="name">Nom</label>
+				<input type="text" name="name" id="name">
+				<label for="email">Email</label>
+				<input type="email" name="email" id="email">
+				<label for="message">Message</label>
+				<textarea name="message" id="message" cols="30" rows="10"></textarea>
+				<input type="submit" value="Envoyer">
+			</form>
+		</section>
+	</main>
+
+	<footer>
+		<nav>
+			<ul>
+				<li>Mentions Légales</li>
+			</ul>
+		</nav>
+	</footer>
+	<script src="script.js"></script>
 </body>
+
 </html>
