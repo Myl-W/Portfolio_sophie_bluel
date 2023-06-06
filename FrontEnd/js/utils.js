@@ -218,11 +218,7 @@ export function afficherImagesModal(images) {
         figcaption.id = "figcaptionModal";
         figure.append(figcaption);
         imagesWrapper.append(figure);
-
-
     });
-
-
 
     imagesContainer.append(imagesWrapper);
 
@@ -334,10 +330,7 @@ export function creatForm(modalContainer) {
             console.log('nope');
         }
 
-
     });
-
-    
 
     boutonValider.addEventListener('click', async (event) => {
         const fileInput = document.getElementById("image"); 
@@ -604,6 +597,7 @@ export function createModalButton(target, buttonText) {
 
     const icon = document.createElement('i');
     icon.classList.add('far', 'fa-thin', 'fa-pen-to-square');
+    // <font-awesome-icon :icon="['fas', 'pen-to-square']" />
     button.appendChild(icon);
     button.appendChild(document.createTextNode(buttonText));
 

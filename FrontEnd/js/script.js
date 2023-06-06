@@ -1,4 +1,6 @@
 "use strict";
+// mode permettant un js sécurisé
+
 // Import des fonctions utilitaires
 import {
     creatModal,
@@ -14,22 +16,17 @@ import {
  
     // verifie si le token de session est valide 
     if (sessionStorage.getItem("token") && sessionStorage.getItem("token") !== "undefined") {
-       console.log("sucessfully");
+       console.log("successfully");
  
        //Crée le conteneur d'édition
        createContainerEdition();
        // Modifie le bouton de connexion en bouton de deconnexion
        document.getElementById("login").innerHTML = "logout";
  
-       
- 
       //Crée le conteneur de la fenêtre modale
        const modalContainer = document.createElement('div');
        creatModal(modalContainer);
-
-        //Crée et initialise les boutons de catégories
        
-
        // Vide le sessionStorage et redirige l'utilisateur vers la page de connexion
        let btnLogout = document.getElementById("login");
        btnLogout.addEventListener("click", function() {
@@ -39,9 +36,8 @@ import {
  });
  
  boutonsCategories();
-//Crée le bouton pour la fenêtre modal
+//Crée le bouton pour la fenêtre modale
 
- 
 //Vide le sessionStorage et redirige l'utilisateur vers la page de connexion
 function clearSessionStorage() {
     sessionStorage.clear();
@@ -64,7 +60,11 @@ function traitementCategories(categories) {
     btnAll.textContent = 'Tous';
     divBoutons.appendChild(btnAll);
 
+    const categorySet = new Set(); // Crée un nouvel objet Set pour stocker les catégories uniques
+
     categories.forEach(categorie => {
+        categorySet.add(categorie.name); // Ajoute le nom de la catégorie à l'ensemble
+
         const button = document.createElement('button');
         button.textContent = categorie.name;
         button.id = categorie.id;
@@ -97,7 +97,7 @@ function boutonsCategories() {
     });
 }
  
-//Initialise et affiche les boutons "modifier" pour la fenêtre modal
+//Initialise et affiche les boutons "modifier" pour la fenêtre modale
 
 //Crée et affiche le conteneur d'édition 
 function createContainerEdition() {
@@ -107,7 +107,7 @@ function createContainerEdition() {
  
     const text = createAndAppendElement(containerEdition, 'div', ['text']);
  
-    const p1 = createAndAppendElement(text, 'p', [], "Mode éditon");
+    const p1 = createAndAppendElement(text, 'p', [], "Mode édition");
     p1.setAttribute('id', 'thin');
  
     const p2 = createAndAppendElement(text, 'button', [], "publier les changements");
