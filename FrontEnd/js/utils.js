@@ -1,4 +1,4 @@
-//crée une modal pour la galerie de photos et gère les événements associés
+//crée une modale pour la galerie de photos et gère les événements associés
 export function creatModal() {
     initializeBoutonsModal();
     const figure = document.querySelector('#introduction figure');
@@ -106,11 +106,7 @@ export function creatModal() {
 
 export function supprimerToutlesTravaux() {
     // Récupère la liste de tous les éléments
-    fetch('http://localhost:5678/api/works', {
-            headers: {
-                Authorization: 'Bearer ' + sessionStorage.getItem("token") // Ajoute le token d'authentification
-            }
-        })
+    fetch('http://localhost:5678/api/works')
         .then(response => {
             // Vérifie si la réponse renvoie une erreur
             if (!response.ok) {

@@ -104,6 +104,7 @@ li>a {
 li:hover {
 	color: #B1663C;
 }
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -130,6 +131,10 @@ li:hover {
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
+}
+
+.instagramIcon {
+	font-size: 20px;
 }
 
 .categories {

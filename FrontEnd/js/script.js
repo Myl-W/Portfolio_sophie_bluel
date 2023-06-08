@@ -37,12 +37,6 @@ import {
  
  boutonsCategories();
 //Crée le bouton pour la fenêtre modale
-
-//Vide le sessionStorage et redirige l'utilisateur vers la page de connexion
-function clearSessionStorage() {
-    sessionStorage.clear();
-    document.location.href = "login.html";
- }
  
 //Récupère les catégories depuis l'API
 function recupererCategories() {
