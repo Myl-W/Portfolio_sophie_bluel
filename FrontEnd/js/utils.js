@@ -538,22 +538,26 @@ export function createImagePreview() {
 //crée un bouton pour ajouter une photo et gère l'événement associé
 export function createBoutonAjouterPhoto(modalFormDiv, inputFormFile) {
     const boutonAjouterPhoto = createButtonWithClassAndText('bouton-ajouter-photo', '+ Ajouter photo');
+    // Ajoute un écouteur d'événement au bouton pour le clic
     boutonAjouterPhoto.addEventListener('click', (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Empêche le comportement par défaut du clic
         inputFormFile.click();
+        // Obtient tous les éléments avec la classe 'input-file'
         const inputFiles = document.getElementsByClassName('input-file');
+        // Parcourt tous les éléments inputFiles et modifie le style pour ajuster les marges
         for (let i = 0; i < inputFiles.length; i++) {
             inputFiles[i].style.paddingTop = '0px';
             inputFiles[i].style.paddingBottom = '0px';
         }
-        console.log(inputFiles);
+        console.log(inputFiles); // Affiche les éléments inputFiles dans la console
+        // Sélectionne l'élément avec la classe 'picture' et le masque
         const i = document.querySelector('.picture');
         const span = document.querySelector('.text-caption');
-        boutonAjouterPhoto.style.display = 'none';
-        i.style.display = 'none';
-        span.style.display = 'none';
+        boutonAjouterPhoto.style.display = 'none'; // Masque le bouton boutonAjouterPhoto
+        i.style.display = 'none'; // Masque l'élément i (image)
+        span.style.display = 'none'; // Masque l'élément span (légende)
     });
-    return boutonAjouterPhoto;
+    return boutonAjouterPhoto; // Retourne le bouton boutonAjouterPhoto
 }
 
 export function initializeBoutonsModal() {
