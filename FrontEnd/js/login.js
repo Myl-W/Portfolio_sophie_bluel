@@ -22,7 +22,7 @@ form.addEventListener('submit', event => {
   })
   .then(response => response.json())
   .then(data => {
-    //récuperer 
+    //récupérer 
     let userId = data.userId;
     if (userId == 1){
       let token = data;
