@@ -77,8 +77,6 @@ export function creatModal() {
     boutonSupprimer.classList.add('bouton-supprimer');
     footer.appendChild(boutonSupprimer);
 
-
-
     boutonSupprimer.addEventListener('click', (e) => {
         e.preventDefault();
         supprimerToutlesTravaux();

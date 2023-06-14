@@ -75,8 +75,9 @@ h1{
 h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
+	margin-top: 3%;
 	letter-spacing: 0.1em;
-
+    text-transform: uppercase;
 }
 
 h2{
@@ -114,8 +115,8 @@ li:hover {
 }
 #introduction img {
 	display: block;
-	margin: auto;
-	width: 80%;
+	margin: 0;
+	width: 96%;
 }
 
 #introduction article {
@@ -316,6 +317,7 @@ footer nav ul {
 	display: flex;
 	align-items: center;
 	font-size: 1rem;
+	padding-left: 1%;
 	font-family: "Work Sans";
 }
 
@@ -394,9 +396,9 @@ footer nav ul {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	background: rgba(0, 0, 0, 0.8);
+	background: rgba(0, 0, 0, 0.3);
 	max-width: none;
-  transition: all 100ms linear;
+  	transition: all 100ms linear;
 }
 
 .modal {
@@ -408,19 +410,18 @@ footer nav ul {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 17.2%;
 	min-width: 380px;
 	border-radius: 10px;
 	background-color: white;
 	z-index: 9999;
-	padding: 60px 4% 50px 4%;
+	padding: 7% 6% 5% 6%;
 	transition: all 100ms linear;
 }
 
 .close-modal {
 	position: absolute;
-	font-size: 25px;
-	padding: 8px 10px;
+	font-size: 25px;    
+	padding: 2% 2% 0% 0%;
 	border-radius: 5px;
 	font-weight: bold;
 	position: absolute;
@@ -464,7 +465,6 @@ footer nav ul {
 	grid-auto-rows: 120px;
 	row-gap: 10px;
 	column-gap: 6px;
-	padding: 40px 0 47px 0;
 	border-bottom: 1px solid #b3b3b3;
 
 }
@@ -475,7 +475,7 @@ footer nav ul {
 }
 
 .modal-header {
-	margin: 0px auto;
+	margin: 0px;
 }
 
 .figure-modal {
@@ -495,7 +495,7 @@ footer nav ul {
 	padding: 3px;
 	border-radius: 5px;
 	color: #fff;
-	margin-left: 45px;
+	margin: 1% 1% 1% 10%;
 	cursor: pointer;
 	font-size: 13px;
 	font-weight: 400;
@@ -534,7 +534,7 @@ footer nav ul {
 }
 
 .bouton-ajouter {
-	margin-top: 1rem;
+	margin-top: 2rem;
 	background: #1d6154;
 	border: 1px green solid;
 	border-radius: 20px;
