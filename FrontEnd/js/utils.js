@@ -1,5 +1,6 @@
 //crée une modale pour la galerie de photos et gère les événements associés
-export function creatModal() {
+
+export async function creatModal() {
     initializeBoutonsModal();
     const figure = document.querySelector('#introduction figure');
 
@@ -14,13 +15,13 @@ export function creatModal() {
     const arrowModal = createAndAppendElement(header, 'i', ['fa-solid', 'fa-arrow-left', 'arrow']);
     const containerModal = createAndAppendElement(modal, 'div', ['modal-content']);
 
-    recupererTravail()
-        .then(donnees => afficherImagesModal(donnees));
+    const donnees = await recupererTravail();
+    afficherImagesModal(donnees);
 
     const footer = createAndAppendElement(modal, 'footer', ['modal-footer']);
     const boutonsAjouter = createAndAppendElement(footer, 'button', ['bouton-ajouter'], 'Ajouter une photo');
 
-    closeButton.addEventListener("click", (e) => {
+    closeButton.addEventListener("click", async function () {
         e.preventDefault();
         const form = document.querySelector("#modal-form");
         const modalButton1 = document.querySelector('.btn1');
@@ -34,8 +35,8 @@ export function creatModal() {
         if (form) {
             form.reset();
         }
-        recupererTravail()
-            .then(donnees => afficherImages(donnees));
+        const donnees = await recupererTravail();
+        afficherImages(donnees);
     });
 
     boutonsAjouter.addEventListener("click", function () {
@@ -50,7 +51,7 @@ export function creatModal() {
         boutonsAjouter.style.display = 'none';
     });
 
-    arrowModal.addEventListener("click", function () {
+    arrowModal.addEventListener("click", async function () {
         const form = document.querySelector('form');
         const boutonAjouter = document.querySelector('.bouton-ajouter');
         boutonAjouter.style.display = 'block';
@@ -68,8 +69,8 @@ export function creatModal() {
         boutonSupprimer.style.display = "block";
         const modalContainer = document.querySelector('.modal-content');
         modalContainer.style.display = "grid";
-        recupererTravail()
-            .then(donnees => afficherImagesModal(donnees));
+        const donnees = await recupererTravail();
+        afficherImagesModal(donnees);
     });
 
     const boutonSupprimer = document.createElement('button');
@@ -77,9 +78,9 @@ export function creatModal() {
     boutonSupprimer.classList.add('bouton-supprimer');
     footer.appendChild(boutonSupprimer);
 
-    boutonSupprimer.addEventListener('click', (e) => {
+    boutonSupprimer.addEventListener('click', async (e) => {
         e.preventDefault();
-        supprimerToutlesTravaux();
+        await supprimerToutlesTravaux();
     });
 
     window.addEventListener('click', (event) => {
@@ -99,8 +100,8 @@ export function creatModal() {
             }
         }
     });
-
 }
+
 
 export async function supprimerToutlesTravaux() {
     try {
@@ -146,10 +147,18 @@ export function createAndAppendElement(parent, elementType, classList = [], text
 }
 
 //récupère les données des travaux (photos) à partir de l'API
-export function recupererTravail() {
-    return fetch('http://localhost:5678/api/works')
-        .then(response => response.json())
-        .catch(erreur => console.error(erreur));
+export async function recupererTravail() {
+    try {
+        const response = await fetch('http://localhost:5678/api/works');
+        if (!response.ok) {
+            throw new Error('Erreur ' + response.status + ': ' + response.statusText);
+        }
+        const data = await response.json();
+        return data;
+    } catch (erreur) {
+        console.error(erreur);
+        throw erreur;
+    }
 }
 
 //affiche les images dans la galerie à partir des données fournies
@@ -272,11 +281,11 @@ export function creatForm(modalContainer) {
     const form = document.createElement('form');
     form.setAttribute('id', 'modal-form');
 
-
     //inputFile & icon
     const iconPicture = createIcon(['fa-sharp', 'fa-solid', 'fa-image', 'picture', 'fa-xl']);
     const inputFormFile = createInputFormFile();
     inputFormFile.setAttribute('name', 'file');
+
     //label titre
     const labelTitre = createLabel('Titre', 'titre', 'label-titre');
     const divTitre = createDivWithClass('input-titre');
@@ -291,7 +300,6 @@ export function creatForm(modalContainer) {
 
     //bouton valider
     const boutonValider = createAndAppendElement(form, 'button', ['bouton-valider-travail'], 'Valider');
-
 
     //effectuer les changements
     const boutonSupprimer = document.querySelector('.bouton-supprimer');
@@ -408,7 +416,6 @@ export function creatForm(modalContainer) {
     })();
 }
   
-
 //envoie un travail sur l'API avec fetch
 
 export async function ajouterTravail() {
