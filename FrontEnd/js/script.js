@@ -7,41 +7,42 @@ import {
     createAndAppendElement,
     recupererTravail,
     afficherImages,
- } from './utils.js';
+} from './utils.js';
 
- recupererTravail()
- .then(images => afficherImages(images))
 // Lorsque le document est prêt
- document.addEventListener("DOMContentLoaded", function() {
- 
+document.addEventListener("DOMContentLoaded", async function() {
+
+    const images = await recupererTravail(); 
+    afficherImages(images);
+
     // verifie si le token de session est valide 
     if (sessionStorage.getItem("token") && sessionStorage.getItem("token") !== "undefined") {
-       console.log("successfully");
- 
-       //Crée le conteneur d'édition
-       createContainerEdition();
-       // Modifie le bouton de connexion en bouton de deconnexion
-       document.getElementById("login").innerHTML = "logout";
- 
-      //Crée le conteneur de la fenêtre modale
-       const modalContainer = document.createElement('div');
-       creatModal(modalContainer);
+        console.log("successfully");
+
+        //Crée le conteneur d'édition
+        createContainerEdition();
+        // Modifie le bouton de connexion en bouton de deconnexion
+        document.getElementById("login").innerHTML = "logout";
+
+        //Crée le conteneur de la fenêtre modale
+        const modalContainer = document.createElement('div');
+        creatModal(modalContainer);
        
-       // Vide le sessionStorage et redirige l'utilisateur vers la page de connexion
-       let btnLogout = document.getElementById("login");
-       btnLogout.addEventListener("click", function() {
-          clearSessionStorage();
-       })
+        // Vide le sessionStorage et redirige l'utilisateur vers la page de connexion
+        let btnLogout = document.getElementById("login");
+        btnLogout.addEventListener("click", function() {
+            clearSessionStorage();
+        })
     }
- });
- 
- boutonsCategories();
-//Crée le bouton pour la fenêtre modale
- 
+
+    const categories = await recupererCategories();
+    traitementCategories(categories);
+});
+
 //Récupère les catégories depuis l'API
-function recupererCategories() {
-    return fetch('http://localhost:5678/api/categories')
-        .then(response => response.json());
+async function recupererCategories() {
+    const response = await fetch('http://localhost:5678/api/categories');
+    return await response.json();
 }
 
 //Traite et affiche les catégories récupérées 
@@ -84,15 +85,6 @@ function traitementCategories(categories) {
     });
 }
 
-//Initialise les boutons des catégories
-function boutonsCategories() {
-    recupererCategories().then(categories => {
-        traitementCategories(categories);
-    });
-}
- 
-//Initialise et affiche les boutons "modifier" pour la fenêtre modale
-
 //Crée et affiche le conteneur d'édition 
 function createContainerEdition() {
     const containerEdition = createAndAppendElement(document.body, 'div', ['container-edition'], '', 'afterbegin');
@@ -106,4 +98,4 @@ function createContainerEdition() {
  
     const p2 = createAndAppendElement(text, 'button', [], "publier les changements");
     p2.setAttribute('id', 'bold');
- }
+}

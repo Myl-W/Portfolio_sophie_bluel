@@ -38,7 +38,7 @@ export function creatModal() {
             .then(donnees => afficherImages(donnees));
     });
 
-    boutonsAjouter.addEventListener("click", function() {
+    boutonsAjouter.addEventListener("click", function () {
         const modalContainer = document.querySelector('.modal-content');
         const imageWrapper = document.querySelector('.images-wrapper');
         imageWrapper.style.display = "none";
@@ -50,7 +50,7 @@ export function creatModal() {
         boutonsAjouter.style.display = 'none';
     });
 
-    arrowModal.addEventListener("click", function() {
+    arrowModal.addEventListener("click", function () {
         const form = document.querySelector('form');
         const boutonAjouter = document.querySelector('.bouton-ajouter');
         boutonAjouter.style.display = 'block';
@@ -104,47 +104,40 @@ export function creatModal() {
 
 }
 
-export function supprimerToutlesTravaux() {
-    // Récupère la liste de tous les éléments
-    fetch('http://localhost:5678/api/works')
-        .then(response => {
-            // Vérifie si la réponse renvoie une erreur
-            if (!response.ok) {
-                throw new Error('Erreur ' + response.status + ': ' + response.statusText);
-            }
-            // Si la réponse est OK, récupère les données JSON
-            return response.json();
-        })
-        .then(data => {
-            // Pour chaque élément, effectue une requête DELETE
-            data.forEach(item => {
-                fetch('http://localhost:5678/api/works/' + item.id, {
-                        method: 'DELETE',
-                        headers: {
-                            Authorization: 'Bearer ' + sessionStorage.getItem("token") // Ajoute le token d'authentification
-                        }
-                    })
-                    .then(response => {
-                        // Vérifie si la réponse renvoie une erreur
-                        if (!response.ok) {
-                            throw new Error('Erreur ' + response.status + ': ' + response.statusText);
-                        }
-                        console.log('La ressource ' + item.id + ' a été supprimée avec succès', +response.status);
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
+export async function supprimerToutlesTravaux() {
+    try {
+        const response = await fetch('http://localhost:5678/api/works');
+
+        if (!response.ok) {
+            throw new Error('Erreur ' + response.status + ': ' + response.statusText);
+        }
+
+        const data = await response.json();
+
+        for (const item of data) {
+            const deleteResponse = await fetch('http://localhost:5678/api/works/' + item.id, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: 'Bearer ' + sessionStorage.getItem("token")
+                }
             });
 
-            // Met à jour l'affichage des images après la suppression
-            recupererTravail().then(données => {
-                afficherImagesModal(données);
-            });
-        })
-        .catch(error => {
-            console.error(error);
-        });
+            if (!deleteResponse.ok) {
+                throw new Error('Erreur ' + deleteResponse.status + ': ' + deleteResponse.statusText);
+            }
+
+            console.log('La ressource ' + item.id + ' a été supprimée avec succès', +deleteResponse.status);
+        }
+
+        // Met à jour l'affichage des images après la suppression
+        const travaux = await recupererTravail();
+        afficherImagesModal(travaux);
+
+    } catch (error) {
+        console.error(error);
+    }
 }
+
 //crée et ajoute un élément avec des classes, un texte et une position spécifiés, puis l'ajoute au parent
 export function createAndAppendElement(parent, elementType, classList = [], textContent = '', position = 'beforeend') {
     const element = document.createElement(elementType);
@@ -223,15 +216,15 @@ export function afficherImagesModal(images) {
         const galleryModals = document.querySelectorAll('.figure-modal');
 
         //Ajoute les écouteurs d'événements à chaque élément ayant la classe "figure-modal"
-        galleryModals.forEach(function(galleryModal) {
-            galleryModal.addEventListener('mouseover', function(event) {
+        galleryModals.forEach(function (galleryModal) {
+            galleryModal.addEventListener('mouseover', function (event) {
                 const figure = event.target.closest('figure');
                 if (figure) {
                     figure.querySelector('.fa-arrows-up-down-left-right').style.display = 'block';
                 }
             });
 
-            galleryModal.addEventListener('mouseout', function(event) {
+            galleryModal.addEventListener('mouseout', function (event) {
                 const figure = event.target.closest('figure');
                 if (figure) {
                     figure.querySelector('.fa-arrows-up-down-left-right').style.display = 'none';
@@ -242,34 +235,36 @@ export function afficherImagesModal(images) {
         return false;
     }
 
-    imageWrapper.addEventListener('click', function(event) {
+    imageWrapper.addEventListener('click', async function (event) {
         event.preventDefault();
         if (event.target.classList.contains('icon-trash')) {
             const figure = event.target.closest('figure');
             const workId = figure.querySelector('img').dataset.id;
             const token = sessionStorage.getItem('token');
-            // Envoie une requête DELETE pour supprimer l'élément
-            fetch(`http://localhost:5678/api/works/${workId}`, {
+            try {
+                // Envoie une requête DELETE pour supprimer l'élément
+                const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
-                })
-                .then(function(response) {
-                    console.log(response);
-                    if (response.ok) {
-
-                        // Affiche les projets mis à jour dans la modale
-
-                        // Affiche les projets mis à jour sur la page d'accueil
-                        recupererTravail()
-                            .then(donnees => afficherImagesModal(donnees));
-                    } else {
-                        console.error('Erreur lors de la suppression de l\'élément');
-                    }
                 });
+
+                console.log(response);
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la suppression de l\'élément');
+                }
+
+                // Affiche les projets mis à jour dans la modale
+                const donnees = await recupererTravail();
+                afficherImagesModal(donnees);
+
+            } catch (error) {
+                console.error(error);
+            }
         }
     });
+
 }
 
 //crée un formulaire pour ajouter de nouvelles photos dans le modal
@@ -329,22 +324,22 @@ export function creatForm(modalContainer) {
     });
 
     boutonValider.addEventListener('click', async (event) => {
-        const fileInput = document.getElementById("image"); 
+        const fileInput = document.getElementById("image");
         const titreInput = document.getElementById("titre");
         const categorieSelect = document.getElementById("categories-select");
-    
+
         if (!fileInput.value) {
             event.preventDefault();
             alert("Veuillez sélectionner un fichier.");
-          } else if (!titreInput.value) {
+        } else if (!titreInput.value) {
             event.preventDefault();
             alert("Veuillez entrer un titre pour votre fichier.");
-          } else if (categorieSelect.value < 1) {
+        } else if (categorieSelect.value < 1) {
             event.preventDefault();
             alert("Veuillez sélectionner une catégorie pour votre fichier.");
-          }else{
+        } else {
             ajouterTravail();
-          }
+        }
     });
 
     //ajouter les éléments au DOM
@@ -380,40 +375,45 @@ export function creatForm(modalContainer) {
             reader.readAsDataURL(file);
         }
     });
+    
+    (async () => {
+        try {
+            const categorySelect = document.querySelector('select');
+            const response = await fetch('http://localhost:5678/api/categories');
+            const categories = await response.json();
 
-    const categorySelect = document.querySelector('select');
-fetch('http://localhost:5678/api/categories')
-    .then((response) => response.json())
-    .then((categories) => {
-        // Créer une nouvelle option pour "Choisir une catégorie"
-        const defaultOption = document.createElement('option');
-        defaultOption.text = 'Choisir une catégorie';
-        defaultOption.value ='0';
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        categorySelect.appendChild(defaultOption);
+            // Créer une nouvelle option pour "Choisir une catégorie"
+            const defaultOption = document.createElement('option');
+            defaultOption.text = 'Choisir une catégorie';
+            defaultOption.value = '0';
+            defaultOption.disabled = true;
+            defaultOption.selected = true;
+            categorySelect.appendChild(defaultOption);
 
-        // Ajouter les options pour chaque catégorie
-        categories.forEach((category) => {
-            const option = document.createElement('option');
-            option.value = category.id;
-            option.text = category.name;
-            categorySelect.appendChild(option);
-            const mySelect = document.getElementById('categories-select');
-            const options = mySelect.querySelectorAll('option');
-            options.forEach((option) => {
-                if (option.textContent.trim() === '') {
-                    option.hidden = true;
-                }
+            // Ajouter les options pour chaque catégorie
+            categories.forEach((category) => {
+                const option = document.createElement('option');
+                option.value = category.id;
+                option.text = category.name;
+                categorySelect.appendChild(option);
+                const mySelect = document.getElementById('categories-select');
+                const options = mySelect.querySelectorAll('option');
+                options.forEach((option) => {
+                    if (option.textContent.trim() === '') {
+                        option.hidden = true;
+                    }
+                });
             });
-        });
-    })
-    .catch((error) => console.error(error));
+        } catch (error) {
+            console.error(error);
+        }
+    })();
 }
+  
 
 //envoie un travail sur l'API avec fetch
-export function ajouterTravail() {
 
+export async function ajouterTravail() {
     const imageInput = document.getElementById('image');
     const imageUrl = imageInput.files[0];
     const title = document.getElementById('titre').value;
@@ -425,24 +425,24 @@ export function ajouterTravail() {
     data.append('image', imageUrl);
     data.append('category', categoryId);
 
+    try {
+        const response = await fetch('http://localhost:5678/api/works', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: data,
+        });
 
-    fetch('http://localhost:5678/api/works', {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${token}`
-        },
-        body: data,
-    }).then((res) => {
-        if (res.ok) {
-           
-            console.log('success');
-        } else {
-         
-            throw new Error('Error status code: ' + res.status);
+        if (!response.ok) {
+            throw new Error('Error status code: ' + response.status);
         }
-    }).catch((error) => {
+
+        console.log('success');
+
+    } catch (error) {
         console.log(error.message);
-    });    
+    }
 }
 
 //crée une icône avec les classes spécifiées
