@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
     const images = await recupererTravail(); 
     afficherImages(images);
+    console.log(images)
 
     // verifie si le token de session est valide 
     if (sessionStorage.getItem("token") && sessionStorage.getItem("token") !== "undefined") {
@@ -56,6 +57,7 @@ function traitementCategories(categories) {
     divBoutons.appendChild(btnAll);
 
     const categorySet = new Set(); // Crée un nouvel objet Set pour stocker les catégories uniques
+    console.log(categorySet)
 
     categories.forEach(categorie => {
         categorySet.add(categorie.name); // Ajoute le nom de la catégorie à l'ensemble

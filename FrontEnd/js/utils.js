@@ -1,3 +1,4 @@
+
 //crée une modale pour la galerie de photos et gère les événements associés
 
 export async function creatModal() {
@@ -17,6 +18,7 @@ export async function creatModal() {
 
     const donnees = await recupererTravail();
     afficherImagesModal(donnees);
+    console.log(donnees)
 
     const footer = createAndAppendElement(modal, 'footer', ['modal-footer']);
     const boutonsAjouter = createAndAppendElement(footer, 'button', ['bouton-ajouter'], 'Ajouter une photo');
@@ -161,6 +163,8 @@ export async function recupererTravail() {
     }
 }
 
+console.log(recupererTravail)
+
 //affiche les images dans la galerie à partir des données fournies
 export function afficherImages(images) {
     const conteneurImages = document.querySelector('.gallery');
@@ -181,6 +185,8 @@ export function afficherImages(images) {
         conteneurImages.appendChild(figure);
     });
 }
+
+console.log(afficherImages)
 
 //affiche les images dans le modal à partir des données fournies
 export function afficherImagesModal(images) {
