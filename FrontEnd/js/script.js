@@ -43,7 +43,11 @@ document.addEventListener("DOMContentLoaded", async function() {
 //Récupère les catégories depuis l'API
 async function recupererCategories() {
     const response = await fetch('http://localhost:5678/api/categories');
-    return await response.json();
+    if(response.ok){
+        return response.json()
+    } else {
+        console.log(response);
+    }
 }
 
 //Traite et affiche les catégories récupérées 
@@ -56,11 +60,7 @@ function traitementCategories(categories) {
     btnAll.textContent = 'Tous';
     divBoutons.appendChild(btnAll);
 
-    const categorySet = new Set(); // Crée un nouvel objet Set pour stocker les catégories uniques
-    console.log(categorySet)
-
     categories.forEach(categorie => {
-        categorySet.add(categorie.name); // Ajoute le nom de la catégorie à l'ensemble
 
         const button = document.createElement('button');
         button.textContent = categorie.name;

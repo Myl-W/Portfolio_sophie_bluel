@@ -29,6 +29,7 @@ form.addEventListener('submit', async (event) => {
             sessionStorage.setItem('token', token.token);
             //redirection vers l'index.html
             document.location.href = "index.html";
+
         } else {
             let errorMsg = document.getElementById('error-message');
             errorMsg.textContent = "Identifiant ou mot de passe incorrect !";

@@ -186,6 +186,8 @@ export function afficherImages(images) {
     });
 }
 
+
+
 console.log(afficherImages)
 
 //affiche les images dans le modal à partir des données fournies
@@ -369,13 +371,12 @@ export function creatForm(modalContainer) {
     divTitre.appendChild(inputTitre);
     form.appendChild(boutonValider);
     inputFormFile.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        
         inputFormFile.style.display = 'none';
-
         divInputFile.appendChild(imagePreview);
         const img = imagePreview.querySelector('img');
-        const file = event.target.files[0];
         const inputElement = document.getElementById("image");
-        const files = event.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.addEventListener('load', (event) => {
