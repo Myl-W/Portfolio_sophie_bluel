@@ -5,15 +5,15 @@
 import {
     creatModal,
     createAndAppendElement,
-    recupererTravail,
-    afficherImages,
+    recuperateWork,
+    showPictures,
 } from './utils.js';
 
 // Lorsque le document est prêt
 document.addEventListener("DOMContentLoaded", async function() {
 
-    const images = await recupererTravail(); 
-    afficherImages(images);
+    const images = await recuperateWork(); 
+    showPictures(images);
     console.log(images)
 
     // verifie si le token de session est valide 
@@ -36,12 +36,12 @@ document.addEventListener("DOMContentLoaded", async function() {
         })
     }
 
-    const categories = await recupererCategories();
-    traitementCategories(categories);
+    const categories = await recuperateCategory();
+    treatmentCategory(categories);
 });
 
 //Récupère les catégories depuis l'API
-async function recupererCategories() {
+async function recuperateCategory() {
     const response = await fetch('http://localhost:5678/api/categories');
     if(response.ok){
         return response.json()
@@ -51,7 +51,7 @@ async function recupererCategories() {
 }
 
 //Traite et affiche les catégories récupérées 
-function traitementCategories(categories) {
+function treatmentCategory(categories) {
     const divPortfolio = document.getElementById('portfolio');
     const divBoutons = document.createElement('div');
     divBoutons.className = 'categories';

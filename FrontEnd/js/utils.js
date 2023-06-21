@@ -11,13 +11,13 @@ export async function creatModal() {
     const overlay = createAndAppendElement(modalContainer, 'div', ['overlay', 'modal-trigger']);
     const modal = createAndAppendElement(modalContainer, 'div', ['modal']);
     const header = createAndAppendElement(modal, 'header', ['modal-header']);
-    const heading = createAndAppendElement(header, 'h1', ['titre-modal'], 'Galerie photos');
+    const heading = createAndAppendElement(header, 'h1', ['titre-modal'], 'Galerie photo');
     const closeButton = createAndAppendElement(header, 'span', ['close-modal', 'modal-trigger'], 'x');
     const arrowModal = createAndAppendElement(header, 'i', ['fa-solid', 'fa-arrow-left', 'arrow']);
     const containerModal = createAndAppendElement(modal, 'div', ['modal-content']);
 
-    const donnees = await recupererTravail();
-    afficherImagesModal(donnees);
+    const donnees = await recuperateWork();
+    showModalPictures(donnees);
     console.log(donnees)
 
     const footer = createAndAppendElement(modal, 'footer', ['modal-footer']);
@@ -37,8 +37,8 @@ export async function creatModal() {
         if (form) {
             form.reset();
         }
-        const donnees = await recupererTravail();
-        afficherImages(donnees);
+        const donnees = await recuperateWork();
+        showPictures(donnees);
     });
 
     boutonsAjouter.addEventListener("click", function () {
@@ -71,8 +71,8 @@ export async function creatModal() {
         boutonSupprimer.style.display = "block";
         const modalContainer = document.querySelector('.modal-content');
         modalContainer.style.display = "grid";
-        const donnees = await recupererTravail();
-        afficherImagesModal(donnees);
+        const donnees = await recuperateWork();
+        showModalPictures(donnees);
     });
 
     const boutonSupprimer = document.createElement('button');
@@ -131,8 +131,8 @@ export async function supprimerToutlesTravaux() {
         }
 
         // Met à jour l'affichage des images après la suppression
-        const travaux = await recupererTravail();
-        afficherImagesModal(travaux);
+        const travaux = await recuperateWork();
+        showModalPictures(travaux);
 
     } catch (error) {
         console.error(error);
@@ -149,7 +149,7 @@ export function createAndAppendElement(parent, elementType, classList = [], text
 }
 
 //récupère les données des travaux (photos) à partir de l'API
-export async function recupererTravail() {
+export async function recuperateWork() {
     try {
         const response = await fetch('http://localhost:5678/api/works');
         if (!response.ok) {
@@ -163,10 +163,10 @@ export async function recupererTravail() {
     }
 }
 
-console.log(recupererTravail)
+console.log(recuperateWork)
 
 //affiche les images dans la galerie à partir des données fournies
-export function afficherImages(images) {
+export function showPictures(images) {
     const conteneurImages = document.querySelector('.gallery');
     conteneurImages.innerHTML = "";
     images.forEach(element => {
@@ -188,10 +188,10 @@ export function afficherImages(images) {
 
 
 
-console.log(afficherImages)
+console.log(showPictures)
 
 //affiche les images dans le modal à partir des données fournies
-export function afficherImagesModal(images) {
+export function showModalPictures(images) {
     const imagesContainer = document.querySelector(".modal-content");
     imagesContainer.innerHTML = "";
 
@@ -271,8 +271,8 @@ export function afficherImagesModal(images) {
                 }
 
                 // Affiche les projets mis à jour dans la modale
-                const donnees = await recupererTravail();
-                afficherImagesModal(donnees);
+                const donnees = await recuperateWork();
+                showModalPictures(donnees);
 
             } catch (error) {
                 console.error(error);
