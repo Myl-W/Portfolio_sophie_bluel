@@ -4,7 +4,7 @@ sessionStorage.clear();
 //Sélectionner le formulaire dans le html
 const form = document.getElementById('login_form');
 
-//écouter le bouton sumbit sur le formulaire de connexion
+//écouter le bouton submit sur le formulaire de connexion
 form.addEventListener('submit', async (event) => {
     //empêcher le rechargement de la page
     event.preventDefault();
