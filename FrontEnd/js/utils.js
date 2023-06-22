@@ -82,7 +82,7 @@ export async function creatModal() {
 
     boutonSupprimer.addEventListener('click', async (e) => {
         e.preventDefault();
-        await supprimerToutlesTravaux();
+        await deleteAllWorks();
     });
 
     window.addEventListener('click', (event) => {
@@ -105,7 +105,7 @@ export async function creatModal() {
 }
 
 
-export async function supprimerToutlesTravaux() {
+export async function deleteAllWorks() {
     try {
         const response = await fetch('http://localhost:5678/api/works');
 
@@ -131,8 +131,8 @@ export async function supprimerToutlesTravaux() {
         }
 
         // Met à jour l'affichage des images après la suppression
-        const travaux = await recuperateWork();
-        showModalPictures(travaux);
+        const works = await recuperateWork();
+        showModalPictures(works);
 
     } catch (error) {
         console.error(error);
@@ -148,7 +148,7 @@ export function createAndAppendElement(parent, elementType, classList = [], text
     return element;
 }
 
-//récupère les données des travaux (photos) à partir de l'API
+//récupère les données des works (photos) à partir de l'API
 export async function recuperateWork() {
     try {
         const response = await fetch('http://localhost:5678/api/works');
@@ -352,7 +352,7 @@ export function creatForm(modalContainer) {
             event.preventDefault();
             alert("Veuillez sélectionner une catégorie pour votre fichier.");
         } else {
-            ajouterTravail();
+            addWork();
         }
     });
 
@@ -370,7 +370,7 @@ export function creatForm(modalContainer) {
     divTitre.appendChild(labelTitre);
     divTitre.appendChild(inputTitre);
     form.appendChild(boutonValider);
-    inputFormFile.addEventListener('change', (event) => {
+    inputFormFile.addEventListener('change', async (event) => {
         const file = event.target.files[0];
         
         inputFormFile.style.display = 'none';
@@ -425,7 +425,7 @@ export function creatForm(modalContainer) {
   
 //envoie un travail sur l'API avec fetch
 
-export async function ajouterTravail() {
+export async function addWork() {
     const imageInput = document.getElementById('image');
     const imageUrl = imageInput.files[0];
     const title = document.getElementById('titre').value;
