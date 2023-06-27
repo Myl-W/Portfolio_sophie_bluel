@@ -1,0 +1,30 @@
+<div class="modal-container active" id="modal-1">
+    <div class="overlay modal-trigger"></div>
+    <div class="modal">
+        <header class="modal-header">
+            <h1 class="titre-modal">Ajout photo</h1><span class="close-modal modal-trigger">x</span><i
+                class="fa-solid fa-arrow-left arrow" style="display: block;"></i>
+        </header>
+        <div class="modal-content" style="display: flex;">
+            <form id="modal-form">
+                <div class="input-file"><i class="fa-sharp fa-solid fa-image picture fa-xl"></i><input hidden=""
+                        type="file" id="image" accept="image/png" crossorigin="anonymous" name="file"><button
+                        class="bouton-ajouter-photo">+ Ajouter photo</button><span class="text-caption">jpg,png: 4mo
+                        max</span></div>
+                <div class="form-group">
+                    <div class="input-titre"><label for="titre" id="label-titre">Titre</label><input type="text"
+                            id="titre" name="titre" required="true"></div><label for="categories"
+                        id="categories">Catégorie</label><select id="categories-select" name="categoryId">
+                        <option value="0" disabled="">Choisir une catégorie</option>
+                        <option value="1">Objets</option>
+                        <option value="2">Appartements</option>
+                        <option value="3">Hotels &amp; restaurants</option>
+                    </select>
+                </div><button class="bouton-valider-travail">Valider</button>
+            </form>
+        </div>
+        <footer class="modal-footer"><button class="bouton-ajouter" id="addWorks" style="display: none;">Ajouter une
+                photo</button><button class="bouton-supprimer" style="display: none;">Supprimer la galerie</button>
+        </footer>
+    </div>
+</div>

@@ -55,7 +55,9 @@ function treatmentCategory(categories) {
     const divPortfolio = document.getElementById('portfolio');
     const divBoutons = document.createElement('div');
     divBoutons.className = 'categories';
-
+    if (sessionStorage.getItem("token") && sessionStorage.getItem("token") !== "undefined") {
+        divBoutons.classList.add('hidden');
+    }
     const btnAll = document.createElement('button');
     btnAll.textContent = 'Tous';
     divBoutons.appendChild(btnAll);

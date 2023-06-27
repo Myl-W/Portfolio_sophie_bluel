@@ -33,7 +33,7 @@ export async function creatModal() {
         modalButton2.style.zIndex = "1";
         modalButton3.style.zIndex = "1";
         modalContainer.classList.remove("active");
-        console.log('test close modal');
+        console.log('test close modal', form);
         if (form) {
             form.reset();
         }
@@ -47,6 +47,18 @@ export async function creatModal() {
         imageWrapper.style.display = "none";
         modalContainer.style.display = 'flex';
         boutonsAjouter.setAttribute('id', 'addWorks');
+        const modal_Container = document.getElementById("#modal-2");
+        console.log("🚀 ~ file: utils.js:51 ~ modal_Container:", modal_Container)
+        fetch('/modal-photoadd.html' /*, options */)
+            .then((response) => response.text())
+            .then((html) => {
+                modalContainer.innerHTML = html;
+                modalContainer.classList.toggle("active");
+
+            })
+            .catch((error) => {
+                console.warn(error);
+            });
         if (!document.getElementById('modal-form')) {
             creatForm(modalContainer);
         }
@@ -370,7 +382,7 @@ export function creatForm(modalContainer) {
     form.appendChild(boutonValider);
     inputFormFile.addEventListener('change', async (event) => {
         const file = event.target.files[0];
-        
+
         inputFormFile.style.display = 'none';
         divInputFile.appendChild(imagePreview);
         const img = imagePreview.querySelector('img');
@@ -386,7 +398,7 @@ export function creatForm(modalContainer) {
             reader.readAsDataURL(file);
         }
     });
-    
+
     (async () => {
         try {
             const categorySelect = document.querySelector('select');
@@ -420,7 +432,7 @@ export function creatForm(modalContainer) {
         }
     })();
 }
-  
+
 //envoie un travail sur l'API avec fetch
 
 export async function addWork() {
@@ -572,12 +584,21 @@ export function initializeBoutonsModal() {
     modalButton2.addEventListener("click", (event) => {
         event.preventDefault();
         const modalId = event.target.getAttribute("data-target");
+        console.log("🚀 ~ file: utils.js:575 ~ modalButton2.addEventListener ~ modalId:", modalId)
         modalButton1.style.zIndex = "-1";
         modalButton2.style.zIndex = "-1";
         modalButton3.style.zIndex = "-1";
-        const modalContainer = document.querySelector(modalId);
-        modalContainer.classList.toggle("active");
-        console.log(modalId);
+        const modalContainer = document.getElementById("modal-1");
+        fetch('/modal-photo.html' /*, options */)
+            .then((response) => response.text())
+            .then((html) => {
+                modalContainer.innerHTML = html;
+                modalContainer.classList.toggle("active");
+
+            })
+            .catch((error) => {
+                console.warn(error);
+            });
     });
 }
 
