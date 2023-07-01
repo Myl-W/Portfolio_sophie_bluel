@@ -198,8 +198,6 @@ export function showPictures(images) {
     });
 }
 
-
-
 console.log(showPictures)
 
 //affiche les images dans le modal à partir des données fournies
