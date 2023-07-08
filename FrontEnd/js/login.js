@@ -1,41 +1,61 @@
-// on supprime les localStorage 
-sessionStorage.clear();
+function showPassword() {
+  const passwordField = document.getElementById('password');
+  const showPasswordCheckbox = document.getElementById('showMdp');
 
-//Sélectionner le formulaire dans le html
-const form = document.getElementById('login_form');
+  if (showPasswordCheckbox.checked) {
+    passwordField.type = 'text';
+  } else {
+    passwordField.type = 'password';
+  }
+}
 
-//écouter le bouton submit sur le formulaire de connexion
-form.addEventListener('submit', async (event) => {
-    //empêcher le rechargement de la page
+document.addEventListener('DOMContentLoaded', function() {
+  const showPasswordCheckbox = document.getElementById('showMdp');
+  showPasswordCheckbox.addEventListener('change', showPassword);
+
+  const loginForm = document.getElementById('login-form');
+  loginForm.addEventListener('submit', function(event) {
     event.preventDefault();
 
-    //On récupère la valeur des champs dans le formulaire
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    try {
-        const response = await fetch('http://localhost:5678/api/users/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        });
+    const loginData = {
+      email: email,
+      password: password
+    };
 
-        const data = await response.json();
-        let userId = data.userId;
-        if (userId == 1) {
-            let token = data;
-            sessionStorage.setItem('token', token.token);
-            //redirection vers l'index.html
-            document.location.href = "index.html";
-
+    fetch('http://localhost:5678/api/users/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(loginData)
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
         } else {
-            let errorMsg = document.getElementById('error-message');
-            errorMsg.textContent = "Identifiant ou mot de passe incorrect !";
+          throw new Error('Erreur lors de la requête de login');
         }
-    } catch (error) {
-        console.error(error);
-    }
+      })
+      .then(data => {
+        if (data.userId && data.token) {
+          const token = data.token;
+          localStorage.setItem('token', token);
+          window.location.href = './index.html';
+        } else {
+          const errorContainer = document.getElementById('error-container');
+          const error = document.createElement('p');
+          error.innerText = 'Email ou mot de passe incorrect';
+          error.style.textAlign = 'center';
+          error.style.color = 'red';
+          error.style.marginBottom = '35px';
+          errorContainer.appendChild(error);
+        }
+      })
+      .catch(error => {
+        console.error('Erreur lors de la requête de login:', error);
+      });
+  });
 });
-
