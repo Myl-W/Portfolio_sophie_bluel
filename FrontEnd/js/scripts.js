@@ -392,15 +392,15 @@ submitPhoto.addEventListener('click', async (event) => {
   let categoryForm = document.getElementById('choix');
 
   if(imageForm.value === ''){
-    alert('L\'image n\'est pas remplis');
+    alert('Aucune image n\'est sélectionnée');
     return;
   }
   if(titleForm.value === ''){
-    alert('Le titre n\'est pas remplis');
+    alert('Aucun titre n\'est mis');
     return;
   }
   if(categoryForm.value === ''){
-    alert('Le categorie n\'est pas remplis');
+    alert('Aucune catégorie n\'est sélectionnée');
     return;
   }
   const reader = new FileReader();

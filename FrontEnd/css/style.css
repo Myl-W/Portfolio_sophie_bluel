@@ -336,6 +336,34 @@ input[type="submit"]{
 	cursor: pointer;
 }
 
+.submitButton {
+	background-color: #1D6154;
+    margin-left: 200px;
+    color: white;
+    width: 243px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: none;
+    border-right: none;
+    border-left: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 16px;
+    font-family: 'Syne';
+}
+
+.greyBorder {
+	color: #B3B3B3;
+    border: 1px solid #B3B3B3;
+    width: 500px;
+    margin-left: 81px;
+    margin-bottom: 40px;
+}
+
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
