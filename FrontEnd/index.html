@@ -85,12 +85,13 @@
 								<button class="js-modal-close"><i class="fa-solid fa-x"></i></button>
 							</div>
 							<h3 class="title-modal">Ajout photo</h3>
-							<form action="" id="add-form">
+							<form action="" id="add-form" enctype="multipart/form-data">
 								<div class="add-img">
 									<i class="fa-regular fa-image icon-image"></i>
 									<label for="photo-file">+ Ajouter photo</label>
-									<input type="file" id="photo-file" accept=".jpg, .png" style="display: none;">
+									<input type="file" id="photo-file" accept=".jpg, .png" size="4194304" style="display: none;">
 									<p>jpg, png : 4 Mo max</p>
+									<div id="photo-preview-container"></div>
 									<div class="preview-container">
 										<img id="photo-preview" src="" alt="Aperçu de l'image" style="display: none;">
 									</div>
@@ -99,16 +100,16 @@
 									style="color: red; display: none;"></span>
 								<div class="add-img-form">
 									<label for="titre">Titre</label>
-									<input type="text" name="titre" id="titre">
+									<input type="text" required="true" name="titre" id="titre">
 									<label for="choix">Catégorie</label>
-									<select name="categorie" id="choix" form="formChoix">
-										<option value="vide">- Sélectionner une catégorie -</option>
+									<select name="categorie" required="true" id="choix" form="formChoix">
+										<option value="">- Sélectionner une catégorie -</option>
 										<option value="1">Objets</option>
 										<option value="2">Appartements</option>
 										<option value="3">Hotel &amp; restaurants</option>
 									</select>
 								</div>
-								<button type="submit" id="submit-button" class="valid" disabled>Valider</button>
+								<button id="add-photo-submit" type="submit">Valider</button>
 							</form>
 						</div>
 					</aside>

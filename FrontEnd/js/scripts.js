@@ -54,18 +54,24 @@ const deleteWork = async (id) => {
       'Authorization': `Bearer ${tokenValue}` // Utilise la valeur du token dans l'en-tête de la requête
     }
   });
-
-  if (response.ok) {
-    for (const work of works) {
-      if(work.id == id){
-          const index = works.indexOf(work)
-          works.splice(index, 1)
-          break
+  if(response.status === '204'){
+    console.log('not in found in api');
+    const index = works.indexOf(work)
+    works.splice(index, 1)
+    return;
+  }else{
+    if (response.ok) {
+      for (const work of works) {
+        if(work.id == id){
+            const index = works.indexOf(work)
+            works.splice(index, 1)
+            break
+        }
       }
+      renderWorks();
+    } else {
+      console.log('Erreur lors de la suppression du travail');
     }
-    renderWorks();
-  } else {
-    console.log('Erreur lors de la suppression du travail');
   }
 };
 
@@ -195,7 +201,12 @@ const openAddModal = function (e) {
   modal.addEventListener('click', closeModal);
   modal.querySelector('.js-modal-close').addEventListener('click', closeModal);
   modal.querySelector('.js-modal-stop').addEventListener('click', stopPropagation);
+
+  const addForm = document.getElementById('add-form');
+  addForm.removeEventListener('submit', handleAddPhotoSubmit); // Supprime l'ancien gestionnaire d'événement s'il existe
+  addForm.addEventListener('submit', handleAddPhotoSubmit); // Ajoute le nouvel événement de soumission
 };
+
 document.querySelector('.ajt-photo a').addEventListener('click', openAddModal);
 
 const retourModal = function (e) {
@@ -203,10 +214,7 @@ const retourModal = function (e) {
   const galleryModal = document.getElementById('modal');
   const addImgContainer = document.querySelector('.add-img');
 
-  const imagePreview = addImgContainer.querySelector('img.photo-preview');
-  if (imagePreview) {
-    addImgContainer.removeChild(imagePreview);
-  }
+  resetFileInputAndPreview(); // Réinitialise l'aperçu de l'image et l'élément d'entrée du fichier
 
   const elementsToShow = addImgContainer.querySelectorAll('i, label, p');
   elementsToShow.forEach(element => {
@@ -220,6 +228,7 @@ const retourModal = function (e) {
   modal = galleryModal;
   modal.removeEventListener('click', closeModal);
   resetForm();
+  resetAddImgContainer();
 };
 
 const retourButton = document.querySelector('.js-modal-retour');
@@ -261,6 +270,56 @@ function resetForm() {
   selectElement.value = 'vide';
 }
 
+let photoFileInput = document.getElementById('photo-file');
+
+function handleFileInputChange(e) {
+  const selectedFile = e.target.files[0];
+  resetPhotoPreview(); // Réinitialise l'aperçu de l'image
+}
+
+function handleAddPhotoSubmit(e) {
+  e.preventDefault();
+
+  alert('Soumission du formulaire de photo réussie !');
+
+  const selectedFile = photoFileInput.files[0];
+
+  if (!selectedFile) {
+    alert('Veuillez sélectionner un fichier.');
+    return;
+  }
+
+  const allowedExtensions = ['jpg', 'jpeg', 'png'];
+  const allowedSize = 4 * 1024 * 1024; // 4 Mo
+
+  const fileExtension = selectedFile.name.split('.').pop().toLowerCase();
+  const fileSize = selectedFile.size;
+
+  if (!allowedExtensions.includes(fileExtension)) {
+    alert('Seules les images au format JPG, JPEG et PNG sont autorisées.');
+    return;
+  }
+
+  if (fileSize > allowedSize) {
+    alert('La taille du fichier dépasse la limite autorisée de 4 Mo.');
+    return;
+  }
+
+  // Le fichier sélectionné est valide, vous pouvez maintenant envoyer le fichier
+  // Ajoutez ici le code pour envoyer le fichier à votre backend
+
+  // Une fois le fichier envoyé avec succès, vous pouvez fermer la modal et effectuer les actions nécessaires
+  closeModal();
+  resetForm();
+  resetAddImgContainer();
+  // Effectuez les opérations supplémentaires, si nécessaire, comme actualiser la galerie des photos
+}
+
+function resetPhotoPreview() {
+  const photoPreviewContainer = document.getElementById('photo-preview-container');
+  photoPreviewContainer.innerHTML = ''; // Vide le contenu du conteneur d'aperçu de l'image
+}
+
 // Gestionnaire d'événement pour le chargement de la page
 window.addEventListener('load', function() {
   addModal = document.getElementById('add-modal');
@@ -281,27 +340,110 @@ window.addEventListener('keydown', function (e) {
 });
 
 const addImgContainer = document.querySelector('.add-img');
-const photoFileInput = document.getElementById('photo-file');
 
 photoFileInput.addEventListener('change', async (e) => {
   const selectedFile = e.target.files[0];
+  const allowedExtensions = ['jpg', 'jpeg', 'png'];
+  const allowedSize = 4 * 1024 * 1024; // 4 Mo
+
+  if (selectedFile) {
+    const fileExtension = selectedFile.name.split('.').pop().toLowerCase();
+    const fileSize = selectedFile.size;
+
+    if (!allowedExtensions.includes(fileExtension)) {
+      alert('Seules les images au format JPG, JPEG et PNG sont autorisées.');
+      return;
+    }
+
+    if (fileSize > allowedSize) {
+      alert('La taille du fichier dépasse la limite autorisée de 4 Mo.');
+      return;
+    }
+
+    // Le fichier sélectionné est valide, continuer le traitement
+    // ...
+    const elementsToHide = addImgContainer.querySelectorAll('i, label, p');
+    elementsToHide.forEach(element => {
+      element.style.display = 'none';
+    });
   
-  const elementsToHide = addImgContainer.querySelectorAll('i, label, p');
-  elementsToHide.forEach(element => {
-    element.style.display = 'none';
-  });
+    const imagePreview = document.createElement('img');
+    imagePreview.classList.add('photo-preview');
+    imagePreview.id = 'photo-preview';
+    addImgContainer.appendChild(imagePreview);
+  
+    const reader = new FileReader();
+  
+    reader.onload = function (e) {
+      imagePreview.src = e.target.result;
+    };
+  
+    reader.readAsDataURL(selectedFile);
+  }
+  
+});
 
-  const imagePreview = document.createElement('img');
-  imagePreview.classList.add('photo-preview');
-  addImgContainer.appendChild(imagePreview);
+let submitPhoto = document.getElementById('add-photo-submit');
 
+
+submitPhoto.addEventListener('click', async (event) => {
+  let imageForm = document.getElementById('photo-file');
+  let titleForm = document.getElementById('titre')
+  let categoryForm = document.getElementById('choix');
+
+  if(imageForm.value === ''){
+    alert('L\'image n\'est pas remplis');
+    return;
+  }
+  if(titleForm.value === ''){
+    alert('Le titre n\'est pas remplis');
+    return;
+  }
+  if(categoryForm.value === ''){
+    alert('Le categorie n\'est pas remplis');
+    return;
+  }
   const reader = new FileReader();
+  reader.addEventListener('load', (imageEvent) => {
+    const gallery = document.getElementById('gallery');
+    const galleryModalElement = document.getElementById('gallery-modal');
 
-  reader.onload = function (e) {
-    imagePreview.src = e.target.result;
-  };
+    const figureElement = document.createElement('figure');
+    const imgElement = document.createElement('img');
+    const figcaptionElement = document.createElement('figcaption');
+    const spanModalDelete = document.createElement('span');
+    const trashIcon = document.createElement('i');
 
-  reader.readAsDataURL(selectedFile);
+    imgElement.src = imageEvent.target.result;
+    imgElement.alt = titleForm.value;
+    figcaptionElement.textContent = titleForm.value;
+
+    figureElement.appendChild(imgElement);
+    figureElement.appendChild(figcaptionElement);
+    gallery.appendChild(figureElement);
+
+    // Crée les éléments HTML pour la galerie modale avec l'option de suppression
+    const figureModalElement = figureElement.cloneNode(true);
+    const figcaptionModalElement = figureModalElement.querySelector('figcaption');
+    figcaptionModalElement.textContent = 'éditer';
+
+    trashIcon.classList.add('fas', 'fa-trash');
+    spanModalDelete.appendChild(trashIcon);
+    figureModalElement.appendChild(spanModalDelete);
+    galleryModalElement.appendChild(figureModalElement);
+
+    figureElement.dataset.categoryId = categoryForm.value;
+    figureModalElement.dataset.categoryId = categoryForm.value;
+
+    // Ajoute un gestionnaire d'événement pour supprimer une œuvre au clic sur l'icône de corbeille
+    console.log(works)
+    works.push({category:{id:categoryForm.value,name:''}, categoryId:categoryForm.value, id: works.length + 1, imageUrl: imageEvent.target.result, title: titleForm.value, userId:1, figcaptionElement: titleForm.value})
+    trashIcon.addEventListener('click', (e) => {e.preventDefault(); deleteWork(works.length)});
+    submitPhoto.addEventListener('click', retourModal);
+
+  });
+  reader.readAsDataURL(imageForm.files[0]);
+
 });
 
 const resetAddImgContainer = () => {
@@ -309,4 +451,20 @@ const resetAddImgContainer = () => {
   elementsToShow.forEach(element => {
     element.style.display = null;
   });
+
+  const imagePreview = addImgContainer.querySelector('img.photo-preview');
+  if (imagePreview) {
+    addImgContainer.removeChild(imagePreview);
+  }
 };
+
+function resetFileInputAndPreview() {
+  photoFileInput.value = null; // Réinitialise la valeur du champ de fichier
+  resetAddImgContainer(); // Réinitialise l'aperçu de l'image
+  resetPhotoPreview(); // Réinitialise l'aperçu de l'image dans le conteneur
+}
+
+function handleAddPhotoSubmit(e) {
+  e.preventDefault();
+  // Ajoutez ici le code pour envoyer le formulaire d'ajout
+}
